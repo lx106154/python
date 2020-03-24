@@ -237,10 +237,6 @@ def solve_maze(filename, start=(0, 0), end=(49, 49), blockSize=10, slow=False):
             ]))
         return cand
 
-    def _is_valid(x, y):
-        nbs = _get_neighbors(x, y)
-        return 1 in [maze[n[0]][n[1]] for n in nbs]
-
     maze[start[0]][start[1]] = 1
     maze[end[0]][end[1]] = 1
 
@@ -254,10 +250,10 @@ def solve_maze(filename, start=(0, 0), end=(49, 49), blockSize=10, slow=False):
         visited.add(curr_node)
         next_nodes = list(filter(lambda n: (n[0], n[1]) not in visited and maze[n[0]][n[1]] == 1, _get_neighbors(curr_node[0], curr_node[1])))
         if len(next_nodes) > 0:
+            path.append(curr_node)
             rand_id = random.randrange(0, len(next_nodes), 1)
             maze[curr_node[0]][curr_node[1]] = 2
             stack.append(next_nodes[rand_id])
-            path.append(next_nodes[rand_id])
             visited.add(next_nodes[rand_id])
         else:
             maze[curr_node[0]][curr_node[1]] = 3
